@@ -1,5 +1,4 @@
-Use this as a quick-start for making websites with rust using rocket.rs
+For try-harding on a minecraft server.
 
----
 
-All the javascript options are straight trash, so here's a real language.
+It's a interface for computers in-game to send player data so we can make a audit log for our base.
