@@ -7,6 +7,7 @@ name = "RustServerTemplate"
 version = "0.1.0"
 dependencies = [
  "rocket",
+ "serde",
 ]
 
 [[package]]
