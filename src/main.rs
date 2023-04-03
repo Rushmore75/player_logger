@@ -29,14 +29,32 @@ async fn get_list(state: &State<RwLock<Vec<PlayerNotice>>>) -> Json<Value> {
 
 #[post("/api/logplayer", data="<input>")]
 async fn log_player(input: &str, state: &State<RwLock<Vec<PlayerNotice>>>) {
-    let time = SystemTime::now().duration_since(SystemTime::UNIX_EPOCH).unwrap_or(Duration::ZERO);  
-    
+
     let mut read = state.write().await; 
 
-    read.push(PlayerNotice {
-        timestamp: time,
-        name: input.to_owned()
-    });
+    // see if the player has been seen before
+    let need_to_add = read
+        .iter()
+        .all(|f| f.name != input);
+    
+
+    let time = SystemTime::now().duration_since(SystemTime::UNIX_EPOCH).unwrap_or(Duration::ZERO);  
+    
+    // if the player hasn't been see before, add them to the list
+    if need_to_add {
+        read.push(PlayerNotice {
+            timestamp: time,
+            name: input.to_owned()
+        });
+    // otherwise just modify their last see time
+    } else {
+        read
+            .iter_mut()
+            .filter(|f| f.name == input)
+            .for_each(|f| {
+                f.timestamp = time;
+            });
+    }
 
 }
 
