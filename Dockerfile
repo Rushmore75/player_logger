@@ -14,4 +14,4 @@ RUN cargo install --path .
 # Port as defined in Rocket.toml
 EXPOSE 8000
 # Name as defined in Cargo.toml
-CMD ["player_logger"]
+CMD ["ffpl"]
